@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class GameComponent extends JComponent {
 	protected int score;
 	protected final static int BOSS_FIGHT_SCORE = 300;
 
-	private BufferedImage background;
+	private Image background;
 
 	private int curLevelNumber;
 	private Level curLevel;
@@ -42,8 +42,9 @@ public class GameComponent extends JComponent {
 		this.score = 0;
 
 		try {
-			this.background = ImageIO.read(new File("background.png"));
-		} catch (IOException e) {
+			this.background = ResourceLoader.getImage("background.png");
+		} catch (NullPointerException e) {
+			System.out.println("file background.png cannot be found");
 		}
 
 		this.curLevelNumber = 0;
@@ -413,7 +414,7 @@ public class GameComponent extends JComponent {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		Graphics2D g2 = (Graphics2D) g;
 
-		g2.drawImage(background, null, 0, 0);
+		g2.drawImage(background, 0, 0, null);
 		for (Environment e : this.environments) {
 			e.drawOn(g2);
 		}
@@ -434,14 +435,14 @@ public class GameComponent extends JComponent {
 			hero.drawOn(g2);
 		} catch (NullPointerException e0) {
 			this.turnToEndLevel();
-			BufferedImage gameover = null;
+			Image gameover = null;
 			try {
-				gameover = ImageIO.read(new File("gameover.png"));
-			} catch (IOException e) {
+				gameover = ResourceLoader.getImage("gameover.png");
+			} catch (NullPointerException e) {
 				System.out.println("!");
 			}
-			g2.drawImage(gameover, null, this.getWidth() / 2 - gameover.getWidth() / 2,
-					this.getHeight() / 2 - gameover.getHeight() / 2);
+			g2.drawImage(gameover, this.getWidth() / 2 - 315 / 2,
+					this.getHeight() / 2 - 160 / 2, null);
 		}
 	}
 
