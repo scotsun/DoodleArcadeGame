@@ -3,7 +3,7 @@ import java.awt.Graphics2D;
 
 public class Bullet extends GameObject {
 
-	private static final double BULLET_SPEED = 10;
+	private static final double BULLET_SPEED = 5;
 	private static final double BULLET_DIAMETER = 10;
 	private static final Color BULLET_COLOR = Color.RED;
 	private Monster shooter;

@@ -12,17 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * The main class for your arcade game.
- * 
- * You can design your game any way you like, but make the game start by running
- * main here.
- * 
- * Also don't forget to write javadocs for your classes and functions!
- * 
- * @author Kyle Bensen and Scott Sun
- *
- */
 public class Main {
 	private JFrame homeFrame;
 	private JFrame gameFrame;
@@ -38,24 +27,24 @@ public class Main {
 	public Main() {
 
 		// Initialize Frame and Panel to Display Game Menu
-		this.homeFrame = new JFrame("Joust Menu");
-		this.gameFrame = new JFrame("Joust");
-		homeFrame.setSize(625, 250);
+		this.homeFrame = new JFrame("Demon Slayer Menu");
+		this.gameFrame = new JFrame("Demon Slayer");
+		homeFrame.setSize(860, 500);
 		gameFrame.setSize(625, 480);
 		JPanel homePanel = new JPanel();
 		homeFrame.add(homePanel, BorderLayout.SOUTH);
 
 		// Game Menu Image
 		try {
-			BufferedImage menuScreenImage = ImageIO.read(new File("JoustTitleScreen.png"));
+			BufferedImage menuScreenImage = ImageIO.read(new File("demonSlayerTitleScreen.png"));
 			TitleScreenComponent screenComponent = new TitleScreenComponent(menuScreenImage);
 			homeFrame.add(screenComponent);
 		} catch (IOException e) {
-			System.out.println("Could not load image file " + "JoustTitleScreen.png");
+			System.out.println("Could not load image file " + "demonSlayerTitleScreen.png");
 		}
 
 		// Game Menu Instructions
-		String instructions = "<space>: fly; <left> and <right>: move; <u> and <d>: change level; <r> return to menu; <p>power-up";
+		String instructions = "<space>: jump; <left> and <right>: move; <u> and <d>: change level; <r> return to menu; <p>power-up";
 		JLabel homeLabel = new JLabel();
 		homeFrame.add(homeLabel,BorderLayout.NORTH);
 		homeLabel.setText(instructions);
