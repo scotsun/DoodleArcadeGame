@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -6,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class GameObjectImage {
 	
-	private BufferedImage image;
+	private Image image;
 	private String filename;
 	private GameCharacter object;
 	
@@ -20,8 +21,8 @@ public class GameObjectImage {
 	public GameObjectImage(String filename, GameObject gameObject) {
 		this.filename = filename;
 		try {
-			this.image = ImageIO.read(new File(this.filename));
-		} catch (IOException e) {
+			this.image = ResourceLoader.getImage(filename);
+		} catch (NullPointerException e) {
 			System.out.println("Could not load image file " + this.filename);
 		}
 	}
@@ -42,7 +43,7 @@ public class GameObjectImage {
 		return this.object.getHeight();
 	}
 	
-	public BufferedImage getBufferedImage() {
+	public Image getImage() {
 		return this.image;
 	}
 	

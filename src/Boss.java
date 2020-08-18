@@ -38,7 +38,7 @@ public class Boss extends GameCharacter {
 
 	@Override
 	public void drawOn(Graphics2D g2) {
-		g2.drawImage(this.image.getBufferedImage(), (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(),
+		g2.drawImage(this.image.getImage(), (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(),
 				null);
 	}
 
