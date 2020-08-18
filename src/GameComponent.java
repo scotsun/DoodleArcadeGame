@@ -100,7 +100,7 @@ public class GameComponent extends JComponent {
 		this.updateLevelHelper();
 	}
 
-	public void turnToNextLevel() {
+	public void turnToNextLevel() { //TODO:
 		System.out.println("turn to next");
 		if (this.curLevelNumber == 3) {
 			System.out.println("There is no next level.");
