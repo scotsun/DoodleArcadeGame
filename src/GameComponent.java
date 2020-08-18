@@ -89,7 +89,7 @@ public class GameComponent extends JComponent {
 		this.bullets = new ArrayList<Bullet>();
 	}
 	
-	public void turnToPreviousLevel() { // TODO: need to reduce code in these two methods
+	public void turnToPreviousLevel() {
 		System.out.println("turn to prev");
 		if (this.curLevelNumber == 0) {
 			System.out.println("There is no previous level.");
