@@ -5,7 +5,7 @@ public class Hero extends GameCharacter {
 	public final static double STARTING_DX = 7.5;
 	public final static double STARTING_FLY_SPEED = 10;
 	public final static double STARTING_DY = 4.5;
-	public final static int INIT_NUM_LIVES = 100;
+	public final static int INIT_NUM_LIVES = 10;
 	private int numOfLives;
 	private boolean powerUp;
 	
