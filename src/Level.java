@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -61,12 +62,14 @@ public class Level {
 	// Loads the level from *.txt files.
 	private void readFile() {
 		Scanner scanner = null;
-		try {
-			scanner = new Scanner(new File("level" + Integer.toString(this.levelNumber) + ".txt"));
-		} catch (FileNotFoundException e) {
-			System.out.println("text file is not found");
-			return;
-		}
+//		try {
+//			scanner = new Scanner(new File("level" + Integer.toString(this.levelNumber) + ".txt"));
+//		} catch (FileNotFoundException e) {
+//			System.out.println("text file is not found");
+//			return;
+//		}
+		InputStream is = ResourceLoader.getTextsInputStream("level" + Integer.toString(this.levelNumber) + ".txt");
+		scanner = new Scanner(is);
 		int j = 0;
 		while (scanner.hasNextLine()) {
 			String curLine = scanner.nextLine();

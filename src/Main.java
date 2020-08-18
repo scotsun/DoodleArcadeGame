@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -36,10 +37,10 @@ public class Main {
 
 		// Game Menu Image
 		try {
-			BufferedImage menuScreenImage = ImageIO.read(new File("demonSlayerTitleScreen.png"));
+			Image menuScreenImage = ResourceLoader.getImage("demonSlayerTitleScreen.png");
 			TitleScreenComponent screenComponent = new TitleScreenComponent(menuScreenImage);
 			homeFrame.add(screenComponent);
-		} catch (IOException e) {
+		} catch (NullPointerException e) {
 			System.out.println("Could not load image file " + "demonSlayerTitleScreen.png");
 		}
 

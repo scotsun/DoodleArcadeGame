@@ -1,12 +1,12 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 
 import javax.swing.JComponent;
 
 @SuppressWarnings("serial")
 public class TitleScreenComponent extends JComponent {
-	private BufferedImage image;
+	private Image image;
 	
 	/**
 	 * 
@@ -14,7 +14,7 @@ public class TitleScreenComponent extends JComponent {
 	 * 
 	 * Initialize TitleScreenComponent.
 	 */
-	public TitleScreenComponent(BufferedImage image) {
+	public TitleScreenComponent(Image image) {
 		this.image = image;
 	}
 
@@ -22,7 +22,7 @@ public class TitleScreenComponent extends JComponent {
 	protected void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
 		Graphics2D graphics2 = (Graphics2D) graphics;
-		graphics2.drawImage(image, null, 0, 0);
-
+		graphics2.drawImage(image, 0, 0, null);
+		repaint();
 	}
 }
