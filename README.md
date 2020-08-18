@@ -1,2 +1,2 @@
-# DoodleArcadeGame
-simple arcade game written in Java
+# Demon Slayer
+simple dojin arcade game written in Java
