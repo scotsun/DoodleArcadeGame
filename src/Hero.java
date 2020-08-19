@@ -5,7 +5,7 @@ public class Hero extends GameCharacter {
 	public final static double STARTING_DX = 7.5;
 	public final static double STARTING_FLY_SPEED = 10;
 	public final static double STARTING_DY = 4.5;
-	public final static int INIT_NUM_LIVES = 10;
+	public final static int INIT_HEALTH = 30;
 	private int numOfLives;
 
 	/**
@@ -22,7 +22,7 @@ public class Hero extends GameCharacter {
 		super.flySpeed = STARTING_FLY_SPEED;
 		super.dy = STARTING_DY;
 		super.identity = IDENTITY;
-		this.numOfLives = INIT_NUM_LIVES;
+		this.numOfLives = INIT_HEALTH;
 		super.image = new GameObjectImage("hero.png", this);
 	}
 

@@ -70,7 +70,7 @@ public class GameComponent extends JComponent {
 	// Reset Lives
 	public void updateInfoLabelResetNumLives() {
 		String changeTo = "Score: " + Integer.toString(score) + "     |     Lives: "
-				+ Integer.toString(Hero.INIT_NUM_LIVES);
+				+ Integer.toString(Hero.INIT_HEALTH);
 		this.infoLabel.setText(changeTo);
 	}
 

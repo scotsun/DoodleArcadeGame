@@ -53,7 +53,7 @@ public class Main {
 		// Game
 		JPanel info = new JPanel();
 		info.setBackground(Color.BLACK);
-		JLabel infoLabel = new JLabel("Score: 0     |     Lives: " + Integer.toString(Hero.INIT_NUM_LIVES));
+		JLabel infoLabel = new JLabel("Score: 0     |     Health: " + Integer.toString(Hero.INIT_HEALTH));
 		infoLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 		infoLabel.setForeground(Color.WHITE);
 		info.add(infoLabel);
