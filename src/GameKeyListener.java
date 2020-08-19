@@ -50,9 +50,14 @@ public class GameKeyListener implements KeyListener {
 			this.gameComponent.heroFly();
 			this.gameComponent.heroMoveLeftOrRight(true);
 		}
+		
 		if (this.isFlying == true && this.isMovingRight == true) {
 			this.gameComponent.heroFly();
 			this.gameComponent.heroMoveLeftOrRight(false);
+		}
+		
+		if (keyCode == KeyEvent.VK_A) {
+			this.gameComponent.heroAttack();
 		}
 	}
 	
@@ -83,8 +88,8 @@ public class GameKeyListener implements KeyListener {
 			this.main.getGameFrame().setVisible(false); 
 			main = new Main();
 		}
-		if (keyCode == KeyEvent.VK_P) {
-			this.gameComponent.heroPowerUp();
+		if (keyCode == KeyEvent.VK_A) {
+			this.gameComponent.heroAttackClose();
 		}
 	}
 

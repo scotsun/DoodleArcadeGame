@@ -27,6 +27,7 @@ public class GameAdvanceListener implements ActionListener{
 		}
 		this.gameComponent.updateBullet();
 		this.gameComponent.bulletMove();
+		this.gameComponent.skillMove();
 		this.gameComponent.eggMove();
 		this.gameComponent.handleCollisions();
 	}

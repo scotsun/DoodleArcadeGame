@@ -2,12 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
@@ -30,12 +27,13 @@ public class GameComponent extends JComponent {
 	private ArrayList<GameCharacter> allCharacters;
 	private ArrayList<Environment> environments;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Skill> skills;
 
 	/**
 	 * 
 	 * @param infoLabel
 	 * 
-	 * Initialize GameComponent.
+	 *                  Initialize GameComponent.
 	 */
 	public GameComponent(JLabel infoLabel) {
 		this.infoLabel = infoLabel;
@@ -59,23 +57,24 @@ public class GameComponent extends JComponent {
 		this.environments = this.curLevel.getEnvironments();
 		this.eggs = new ArrayList<Egg>();
 		this.bullets = new ArrayList<Bullet>();
+		this.skills = new ArrayList<Skill>();
 	}
-	
-	//Update Score and Lives on top of screen.
+
+	// Update Score and Lives on top of screen.
 	public void updateInfoLabel() {
 		String changeTo = "Score: " + Integer.toString(score) + "     |     Lives: "
 				+ Integer.toString(this.hero.getNumOfLives());
 		this.infoLabel.setText(changeTo);
 	}
 
-	//Reset Lives
+	// Reset Lives
 	public void updateInfoLabelResetNumLives() {
 		String changeTo = "Score: " + Integer.toString(score) + "     |     Lives: "
 				+ Integer.toString(Hero.INIT_NUM_LIVES);
 		this.infoLabel.setText(changeTo);
 	}
-	
-	//Helper function for updating Level.
+
+	// Helper function for updating Level.
 	public void updateLevelHelper() {
 		this.curLevel = new Level(this.curLevelNumber, this);
 		this.hero = this.curLevel.getHero();
@@ -88,8 +87,9 @@ public class GameComponent extends JComponent {
 		this.environments = this.curLevel.getEnvironments();
 		this.eggs = new ArrayList<Egg>();
 		this.bullets = new ArrayList<Bullet>();
+		this.skills = new ArrayList<Skill>();
 	}
-	
+
 	public void turnToPreviousLevel() {
 		System.out.println("turn to prev");
 		if (this.curLevelNumber == 0) {
@@ -101,7 +101,7 @@ public class GameComponent extends JComponent {
 		this.updateLevelHelper();
 	}
 
-	public void turnToNextLevel() { //TODO:
+	public void turnToNextLevel() { // TODO:
 		System.out.println("turn to next");
 		if (this.curLevelNumber == 3) {
 			System.out.println("There is no next level.");
@@ -122,6 +122,7 @@ public class GameComponent extends JComponent {
 		this.environments = new ArrayList<>();
 		this.eggs = new ArrayList<>();
 		this.bullets = new ArrayList<>();
+		this.skills = new ArrayList<>();
 	}
 
 	public boolean isTouchingEnvironment(GameObject object) {
@@ -171,7 +172,7 @@ public class GameComponent extends JComponent {
 		double flySpeed = character.getFlySpeed();
 		character.setYVelocity(1.5);
 		character.setY(character.getY() - flySpeed);
-		//Sets boundary around the environment blocks.
+		// Sets boundary around the environment blocks.
 		if (this.isTouchingEnvironment(character)) {
 			character.setY(character.getY() + flySpeed);
 		}
@@ -179,28 +180,38 @@ public class GameComponent extends JComponent {
 			character.setY(0);
 		}
 	}
-	
-	public void heroPowerUp() {
-		hero.HeroPowerUp();
+
+	public void heroAttack() {
+		this.updateSkill();
+		hero.heroAttack();
 	}
-	
+
+	public void updateSkill() {
+		this.skills.add(new Skill(hero.getX() + hero.getWidth() / 2, hero.getY() + hero.getHeight() / 2, hero, this));
+		System.out.println(skills.size());
+	}
+
+	public void heroAttackClose() {
+		hero.heroAttackClose();
+	}
+
 	public void heroFly() {
 		try {
 			fly(this.hero);
 		} catch (NullPointerException e) {
 		}
 	}
-	
-	//Helper function for fall and flying to not change fly speed.
-	public void resetHeroDy() { // TODO:
+
+	// Helper function for fall and flying to not change fly speed.
+	public void resetHeroDy() {
 		try {
 			this.hero.setYVelocity(Hero.STARTING_DY);
 		} catch (NullPointerException e) {
 		}
 
 	}
-	
-	public void heroReset() { // TODO:
+
+	public void heroReset() { 
 		int[] initCoord = this.curLevel.getHeroCoords();
 		this.hero.setX(initCoord[0] * 25);
 		this.hero.setY(initCoord[1] * 25);
@@ -245,8 +256,8 @@ public class GameComponent extends JComponent {
 		}
 
 	}
-	
-	//Random chance at throwing monster when in the middle of the map.
+
+	// Random chance at throwing monster when in the middle of the map.
 	public void bossMoveHelper() {
 		double dx = boss.getXVelocity();
 		this.boss.setXVelocity(0);
@@ -261,7 +272,7 @@ public class GameComponent extends JComponent {
 		}
 		this.boss.setXVelocity(dx);
 	}
-	
+
 	public void monstersMove() {
 		try {
 			for (int i = 0; i < this.monsters.size(); i++) {
@@ -282,7 +293,7 @@ public class GameComponent extends JComponent {
 			return;
 		}
 	}
-	
+
 	public void updateBullet() {
 		try {
 			if (Math.random() < 0.01) {
@@ -298,8 +309,14 @@ public class GameComponent extends JComponent {
 	}
 
 	public void bulletMove() {
-		for (int i = 0; i < bullets.size(); i++) {
-			bullets.get(i).tick();
+		for (Bullet bullet : bullets) {
+			bullet.tick();
+		}
+	}
+
+	public void skillMove() {
+		for (Skill skill : skills) {
+			skill.tick();
 		}
 	}
 
@@ -318,6 +335,7 @@ public class GameComponent extends JComponent {
 
 	public void handleCollisions() {
 		List<Bullet> bulletsToRemove = new ArrayList<Bullet>();
+		List<Skill> skillsToRemove = new ArrayList<Skill>();
 		List<Egg> eggsToRemove = new ArrayList<Egg>();
 		List<GameCharacter> monstersToRemove = new ArrayList<GameCharacter>();
 		List<GameObject> allObjects = new ArrayList<GameObject>();
@@ -341,21 +359,22 @@ public class GameComponent extends JComponent {
 			}
 		}
 		this.monsters.removeAll(monstersToRemove);
-
-		try {
-			if (boss.overlaps(hero)) {
-				if (!hero.isPoweredUp()) {
-					this.heroReset();
-				} else {
-					this.score += 300;
-					this.updateInfoLabel();
-					this.boss = null;
-				}
-			}
-		} catch (NullPointerException e) {
-		}
 		
-		//Switch level when all enemies are dead.
+		//TODO:
+//		try {
+//			if (boss.overlaps(hero)) {
+//				if (!hero.isPoweredUp()) {
+//					this.heroReset();
+//				} else {
+//					this.score += 300;
+//					this.updateInfoLabel();
+//					this.boss = null;
+//				}
+//			}
+//		} catch (NullPointerException e) {
+//		}
+
+		// Switch level when all enemies are dead.
 		if (monsters.isEmpty() && eggs.isEmpty() && curLevelNumber < 4) {
 			if (curLevelNumber == 3) {
 				this.turnToEndLevel();
@@ -376,9 +395,28 @@ public class GameComponent extends JComponent {
 			}
 		}
 		this.eggs.removeAll(eggsToRemove);
-
+		
+		// skill: skills that hit on environment and are off boundary will disappear
+		for (Skill tempSkill : this.skills) {
+			
+			// if skill is off screen, then remove
+			boolean shouldRemove = tempSkill.isOffScreen();
+			if (shouldRemove) {
+				skillsToRemove.add(tempSkill);
+			}
+			// if skill hits environment, then remove
+			for (Environment env : this.environments) {
+				boolean overlapEnvironment = tempSkill.overlaps(env);
+				if (overlapEnvironment) {
+					skillsToRemove.add(tempSkill);
+				}
+			}
+		}
+		this.skills.removeAll(skillsToRemove);
+		
 		// bullet: bullets that hit on environment and are off boundary will disappear
 		for (Bullet tempBullet : this.bullets) {
+			
 			// if bullet is off screen, then remove
 			boolean shouldRemove = tempBullet.isOffScreen();
 			if (shouldRemove) {
@@ -427,6 +465,9 @@ public class GameComponent extends JComponent {
 		for (Bullet bullet : this.bullets) {
 			bullet.drawOn(g2);
 		}
+		for (Skill skill : this.skills) {
+			skill.drawOn(g2);
+		}
 		try {
 			boss.drawOn(g2);
 		} catch (NullPointerException e) {
@@ -441,8 +482,7 @@ public class GameComponent extends JComponent {
 			} catch (NullPointerException e) {
 				System.out.println("!");
 			}
-			g2.drawImage(gameover, this.getWidth() / 2 - 315 / 2,
-					this.getHeight() / 2 - 160 / 2, null);
+			g2.drawImage(gameover, this.getWidth() / 2 - 315 / 2, this.getHeight() / 2 - 160 / 2, null);
 		}
 	}
 

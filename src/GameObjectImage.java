@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 public class GameObjectImage {
 	
 	private Image image;
-	private String filename;
+	protected String filename;
 	private GameCharacter object;
 	
 	/**
