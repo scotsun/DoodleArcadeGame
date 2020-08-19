@@ -45,7 +45,7 @@ public class Main {
 		}
 
 		// Game Menu Instructions
-		String instructions = "<space>: jump; <left> and <right>: move; <u> and <d>: change level; <r> return to menu; <p>power-up";
+		String instructions = "A friendly message from Scott Sun: <space>: jump; <left> and <right>: move; <a>: attack <r>: return to menu";
 		JLabel homeLabel = new JLabel();
 		homeFrame.add(homeLabel,BorderLayout.NORTH);
 		homeLabel.setText(instructions);

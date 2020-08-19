@@ -188,7 +188,6 @@ public class GameComponent extends JComponent {
 
 	public void updateSkill() {
 		this.skills.add(new Skill(hero.getX() + hero.getWidth() / 2, hero.getY() + hero.getHeight() / 2, hero, this));
-		System.out.println(skills.size());
 	}
 
 	public void heroAttackClose() {
