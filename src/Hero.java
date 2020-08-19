@@ -60,7 +60,11 @@ public class Hero extends GameCharacter {
 
 		}
 	}
-
+	
+	public boolean isCapable() {
+		return this.gameComponent.score > 300;
+	}
+	
 	public void HeroDies() {
 		this.numOfLives--;
 	}

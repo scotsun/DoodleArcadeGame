@@ -211,7 +211,7 @@ public class GameComponent extends JComponent {
 
 	}
 
-	public void heroReset() { 
+	public void heroReset() {
 		int[] initCoord = this.curLevel.getHeroCoords();
 		this.hero.setX(initCoord[0] * 25);
 		this.hero.setY(initCoord[1] * 25);
@@ -338,11 +338,6 @@ public class GameComponent extends JComponent {
 		List<Skill> skillsToRemove = new ArrayList<Skill>();
 		List<Egg> eggsToRemove = new ArrayList<Egg>();
 		List<GameCharacter> monstersToRemove = new ArrayList<GameCharacter>();
-		List<GameObject> allObjects = new ArrayList<GameObject>();
-		allObjects.addAll(this.environments);
-		allObjects.add(hero);
-		allObjects.addAll(this.monsters);
-		allObjects.addAll(this.eggs);
 
 		// joust: character with lower position would be killed
 		for (Monster monster : this.monsters) {
@@ -358,21 +353,20 @@ public class GameComponent extends JComponent {
 				}
 			}
 		}
-		this.monsters.removeAll(monstersToRemove);
-		
-		//TODO:
-//		try {
-//			if (boss.overlaps(hero)) {
-//				if (!hero.isPoweredUp()) {
-//					this.heroReset();
-//				} else {
-//					this.score += 300;
-//					this.updateInfoLabel();
-//					this.boss = null;
-//				}
-//			}
-//		} catch (NullPointerException e) {
-//		}
+
+		// TODO:
+		try {
+			if (boss.overlaps(hero)) {
+				if (!hero.isCapable()) {
+					this.heroReset();
+				} else {
+					this.score += 300;
+					this.updateInfoLabel();
+					this.boss = null;
+				}
+			}
+		} catch (NullPointerException e) {
+		}
 
 		// Switch level when all enemies are dead.
 		if (monsters.isEmpty() && eggs.isEmpty() && curLevelNumber < 4) {
@@ -394,11 +388,10 @@ public class GameComponent extends JComponent {
 				this.monsters.add(new Monster(egg.getX(), egg.getY() - 20, true, this));
 			}
 		}
-		this.eggs.removeAll(eggsToRemove);
-		
+
 		// skill: skills that hit on environment and are off boundary will disappear
 		for (Skill tempSkill : this.skills) {
-			
+
 			// if skill is off screen, then remove
 			boolean shouldRemove = tempSkill.isOffScreen();
 			if (shouldRemove) {
@@ -411,12 +404,20 @@ public class GameComponent extends JComponent {
 					skillsToRemove.add(tempSkill);
 				}
 			}
+			// if skill hits monster, then both remove
+			for (Monster mon : this.monsters) {
+				boolean hitsMonster = tempSkill.overlaps(mon);
+				if (hitsMonster) {
+					skillsToRemove.add(tempSkill);
+					monstersToRemove.add(mon);
+					updateEgg(mon);
+				}
+			}
 		}
-		this.skills.removeAll(skillsToRemove);
-		
+
 		// bullet: bullets that hit on environment and are off boundary will disappear
 		for (Bullet tempBullet : this.bullets) {
-			
+
 			// if bullet is off screen, then remove
 			boolean shouldRemove = tempBullet.isOffScreen();
 			if (shouldRemove) {
@@ -437,7 +438,10 @@ public class GameComponent extends JComponent {
 			}
 
 		}
+		this.monsters.removeAll(monstersToRemove);
 		this.bullets.removeAll(bulletsToRemove);
+		this.eggs.removeAll(eggsToRemove);
+		this.skills.removeAll(skillsToRemove);
 
 	}
 
