@@ -43,14 +43,12 @@ public class Monster extends GameCharacter {
 	
 	@Override
 	public void setImage(String s) {
-		// TODO Auto-generated method stub
 		this.image = new GameObjectImage(s, this);
 	}
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }

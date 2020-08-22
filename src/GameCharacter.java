@@ -5,7 +5,7 @@ public abstract class GameCharacter extends GameObject {
 	protected double flySpeed;
 	protected double dy;
 	protected String identity;
-	
+
 	/**
 	 * 
 	 * @param x
@@ -14,7 +14,7 @@ public abstract class GameCharacter extends GameObject {
 	 * @param height
 	 * @param gameComponent
 	 * 
-	 * Initialize Game Character Game Object.
+	 *                      Initialize Game Character Game Object.
 	 */
 	public GameCharacter(double x, double y, double width, double height, GameComponent gameComponent) {
 		super(x, y, width, height, gameComponent);
@@ -39,15 +39,15 @@ public abstract class GameCharacter extends GameObject {
 	public void setFlySpeed(double flySpeed) {
 		this.flySpeed = flySpeed;
 	}
-	
+
 	public void setYVelocity(double dy) {
 		this.dy = dy;
 	}
-	
+
 	public String getIdentity() {
 		return this.identity;
 	}
-	
+
 	public abstract void setImage(String s);
 
 }
