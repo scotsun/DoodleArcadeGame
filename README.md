@@ -1,2 +1,2 @@
 # Demon Slayer
-simple dojin arcade game written in Java
+simple dojin rpg game written in Java
