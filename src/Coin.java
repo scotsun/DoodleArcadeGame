@@ -1,7 +1,7 @@
 public class Coin extends GameObject {
 
 	private final double STARTING_DY = 1;
-	private final static double EGG_SIZE = 10;
+	private final static double COIN_SIZE = 10;
 	private long start;
 	private final static long FREE_TIME = 4000;
 	
@@ -14,7 +14,7 @@ public class Coin extends GameObject {
 	 * Initialize Egg Game Object.
 	 */
 	public Coin(double x, double y, GameComponent gameComponent) {
-		super(x, y, EGG_SIZE, EGG_SIZE, gameComponent);
+		super(x, y, COIN_SIZE, COIN_SIZE, gameComponent);
 		super.image = new GameObjectImage("egg.png", this);
 		this.start = System.currentTimeMillis();
 	}
