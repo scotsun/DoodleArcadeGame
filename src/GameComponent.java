@@ -23,7 +23,7 @@ public class GameComponent extends JComponent {
 	private Hero hero;
 	private Boss boss;
 	private ArrayList<Monster> monsters;
-	private ArrayList<Egg> eggs;
+	private ArrayList<Coin> coins;
 	private ArrayList<GameCharacter> allCharacters;
 	private ArrayList<Environment> environments;
 	private ArrayList<Bullet> bullets;
@@ -55,7 +55,7 @@ public class GameComponent extends JComponent {
 		this.allCharacters.add(boss);
 		this.allCharacters.addAll(monsters);
 		this.environments = this.curLevel.getEnvironments();
-		this.eggs = new ArrayList<Egg>();
+		this.coins = new ArrayList<Coin>();
 		this.bullets = new ArrayList<Bullet>();
 		this.skills = new ArrayList<Skill>();
 	}
@@ -85,7 +85,7 @@ public class GameComponent extends JComponent {
 		this.allCharacters.add(boss);
 		this.allCharacters.addAll(monsters);
 		this.environments = this.curLevel.getEnvironments();
-		this.eggs = new ArrayList<Egg>();
+		this.coins = new ArrayList<Coin>();
 		this.bullets = new ArrayList<Bullet>();
 		this.skills = new ArrayList<Skill>();
 	}
@@ -120,7 +120,7 @@ public class GameComponent extends JComponent {
 		this.monsters = new ArrayList<>();
 		this.allCharacters = new ArrayList<>();
 		this.environments = new ArrayList<>();
-		this.eggs = new ArrayList<>();
+		this.coins = new ArrayList<>();
 		this.bullets = new ArrayList<>();
 		this.skills = new ArrayList<>();
 	}
@@ -320,14 +320,14 @@ public class GameComponent extends JComponent {
 	}
 
 	public void updateEgg(Monster monster) {
-		this.eggs.add(new Egg(monster.getX(), monster.getY(), this));
+		this.coins.add(new Coin(monster.getX(), monster.getY(), this));
 	}
 
 	public void eggMove() {
-		for (Egg egg : this.eggs) {
-			egg.tick();
-			if (this.isTouchingEnvironment(egg)) {
-				egg.setY(egg.getY() - egg.getYVelocity());
+		for (Coin coin : this.coins) {
+			coin.tick();
+			if (this.isTouchingEnvironment(coin)) {
+				coin.setY(coin.getY() - coin.getYVelocity());
 			}
 		}
 	}
@@ -335,7 +335,7 @@ public class GameComponent extends JComponent {
 	public void handleCollisions() {
 		List<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 		List<Skill> skillsToRemove = new ArrayList<Skill>();
-		List<Egg> eggsToRemove = new ArrayList<Egg>();
+		List<Coin> eggsToRemove = new ArrayList<Coin>();
 		List<GameCharacter> monstersToRemove = new ArrayList<GameCharacter>();
 
 		// joust: character with lower position would be killed
@@ -368,7 +368,7 @@ public class GameComponent extends JComponent {
 		}
 
 		// Switch level when all enemies are dead.
-		if (monsters.isEmpty() && eggs.isEmpty() && curLevelNumber < 4) {
+		if (monsters.isEmpty() && coins.isEmpty() && curLevelNumber < 4) {
 			if (curLevelNumber == 3) {
 				this.turnToEndLevel();
 			} else {
@@ -377,14 +377,14 @@ public class GameComponent extends JComponent {
 		}
 
 		// egg: check for collision between egg and hero AND free monster from egg
-		for (Egg egg : this.eggs) {
-			if (egg.overlaps(hero)) {
-				eggsToRemove.add(egg);
+		for (Coin coin : this.coins) {
+			if (coin.overlaps(hero)) {
+				eggsToRemove.add(coin);
 				this.score += 20;
 				this.updateInfoLabel();
-			} else if (egg.isFree()) {
-				eggsToRemove.add(egg);
-				this.monsters.add(new Monster(egg.getX(), egg.getY() - 20, true, this));
+			} else if (coin.isFree()) {
+				eggsToRemove.add(coin);
+				this.monsters.add(new Monster(coin.getX(), coin.getY() - 20, true, this));
 			}
 		}
 
@@ -439,7 +439,7 @@ public class GameComponent extends JComponent {
 		}
 		this.monsters.removeAll(monstersToRemove);
 		this.bullets.removeAll(bulletsToRemove);
-		this.eggs.removeAll(eggsToRemove);
+		this.coins.removeAll(eggsToRemove);
 		this.skills.removeAll(skillsToRemove);
 
 	}
@@ -462,7 +462,7 @@ public class GameComponent extends JComponent {
 		for (Monster gc : this.monsters) {
 			gc.drawOn(g2);
 		}
-		for (Egg eg : this.eggs) {
+		for (Coin eg : this.coins) {
 			eg.drawOn(g2);
 		}
 		for (Bullet bullet : this.bullets) {
